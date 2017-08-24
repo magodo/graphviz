@@ -1,0 +1,167 @@
+digraph G
+{
+    graph[label="NAL Unit Stream" labelloc="t" fontname=helvetica fontsize=30];
+
+    {
+        /* NAL Unit */
+
+        pps
+        [
+            shape=0, margin=0,
+            label=<<table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td bgcolor="lightgrey" border="1">NAL unit(non-VCL)</td>
+                    </tr>
+                    <tr>
+                        <td border="1">PPS</td>
+                    </tr>
+                  </table>>
+        ];
+
+        node
+        [
+            shape=0, margin=0,
+            label=<<table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td bgcolor="lightgrey" border="1">NAL unit(non-VCL)</td>
+                    </tr>
+                    <tr>
+                        <td border="1">SPS</td>
+                    </tr>
+                  </table>>
+      ]
+      sps_1;
+      sps_i[style=invis];
+      sps_n;
+    }
+
+    {
+        /* Coded Video Sequence */
+
+        node
+        [
+            shape=0, margin=0,
+            label=<<table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td border="1" bgcolor="lightgrey">Access Unit(VCL)</td>
+                        <td border="1" bgcolor="lightgrey">Access Unit(VCL)</td>
+                        <td border="1" bgcolor="lightgrey">...</td>
+                        <td border="1" bgcolor="lightgrey">Access Unit(VCL)</td>
+                    </tr>
+                    <tr>
+                        <td border="1" port="idr">Instaneous Decoding<BR/>Refresh</td>
+                        <td border="1" port="norm">Normal Access Unit</td>
+                        <td border="1">...</td>
+                        <td border="1" port="end">Last Access Unit</td>
+                    </tr>
+                   </table>>
+        ]
+        
+        coded_video_sequence_1;
+        coded_video_sequence_n;
+    }
+
+    {
+        /* Access Unit */
+
+        access_unit
+        [
+            shape=0, margin=0,
+            label=<<table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td border="1" bgcolor="lightgrey" >NAL Unit</td>
+                        <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
+                    </tr>
+                    <tr>
+                        <td style="dotted" border="1" port="delim">Access Unit <BR/>Delimiter</td>
+                        <td style="dotted" border="1" port="sei">Supplement Enhancement<BR/>Information</td>
+                        <td border="1" port="prim">Primary Picture</td>
+                        <td style="dotted" border="1" port="redund">Redundant Coded<BR/>Picture</td>
+                    </tr>
+                  </table>>
+        ];
+
+        access_unit_eo_sequence
+        [
+            shape=0, margin=0,
+            label=<<table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td border="1" bgcolor="lightgrey" >NAL Unit</td>
+                        <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td border="1" bgcolor="lightgrey" >NAL Unit</td>
+                    </tr>
+                    <tr>
+                        <td style="dotted" border="1" port="delim">Access Unit <BR/>Delimiter</td>
+                        <td style="dotted" border="1">Supplement Enhancement<BR/>Information</td>
+                        <td border="1">Primary Picture</td>
+                        <td style="dotted" border="1">Redundant Coded<BR/>Picture</td>
+                        <td border="1" port="eoseq">End of Sequence</td>
+                    </tr>
+                  </table>>
+        ];
+
+        access_unit_eo_stream
+        [
+            shape=0, margin=0,
+            label=<<table cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td style="dotted"  bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td style="dotted"  bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td border="1" bgcolor="lightgrey" >NAL Unit</td>
+                        <td style="dotted"  bgcolor="lightgrey" border="1">NAL Unit</td>
+                        <td border="1" bgcolor="lightgrey" >NAL Unit</td>
+                        <td border="1" bgcolor="lightgrey" >NAL Unit</td>
+                    </tr>
+                    <tr>
+                        <td style="dotted" border="1" port="delim">Access Unit <BR/>Delimiter</td>
+                        <td style="dotted" border="1">Supplement Enhancement<BR/>Information</td>
+                        <td border="1">Primary Picture</td>
+                        <td style="dotted" border="1">Redundant Coded<BR/>Picture</td>
+                        <td border="1">End of Sequence</td>
+                        <td border="1" port="eostream">End of Stream</td>
+                    </tr>
+                  </table>>
+        ];
+    }
+
+    {
+        /* Empty Node */
+        node[style=invis];
+        empty_node1;
+        empty_node2;
+        empty_node3;
+        empty_node4;
+    }
+
+    subgraph cluster_coded_video_sequence_n
+    {
+        graph[fontsize=20];
+        label="Coded Video Sequence #n";
+        sps_n->coded_video_sequence_n:idr:w;
+        coded_video_sequence_n:end->access_unit_eo_stream:delim:w;
+        access_unit_eo_stream->empty_node4[style=invis];
+    }
+
+    subgraph cluster_coded_video_sequence_i
+    {
+        graph[fontsize=20];
+        label="Coded Video Sequence #2 - #(n-1)";
+        sps_i->empty_node1[style=invis]; 
+        empty_node1->empty_node2[style=invis]; 
+        empty_node2->empty_node3[style=invis]; 
+    }
+
+    subgraph cluster_coded_video_sequence_1
+    {
+        graph[fontsize=20];
+        label="Coded Video Sequence #1";
+        sps_1->coded_video_sequence_1:idr:w; 
+        coded_video_sequence_1:norm -> access_unit:delim:w;
+        coded_video_sequence_1:end -> access_unit_eo_sequence:delim:w;
+        access_unit_eo_sequence->access_unit[style=invis]
+    }
+}
