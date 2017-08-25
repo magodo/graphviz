@@ -7,7 +7,7 @@ digraph G
 
         pps
         [
-            shape=0, margin=0,
+            shape=none, margin=0,
             label=<<table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                         <td bgcolor="lightgrey" border="1">NAL unit(non-VCL)</td>
@@ -20,7 +20,7 @@ digraph G
 
         node
         [
-            shape=0, margin=0,
+            shape=none, margin=0,
             label=<<table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                         <td bgcolor="lightgrey" border="1">NAL unit(non-VCL)</td>
@@ -40,7 +40,7 @@ digraph G
 
         node
         [
-            shape=0, margin=0,
+            shape=none, margin=0,
             label=<<table cellspacing="0" cellpadding="0" border="0">
                     <tr>
                         <td border="1" bgcolor="lightgrey">Access Unit(VCL)</td>
@@ -66,7 +66,7 @@ digraph G
 
         access_unit
         [
-            shape=0, margin=0,
+            shape=none, margin=0,
             label=<<table cellspacing="0" cellpadding="0" border="0">
                     <tr>
                         <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
@@ -85,7 +85,7 @@ digraph G
 
         access_unit_eo_sequence
         [
-            shape=0, margin=0,
+            shape=none, margin=0,
             label=<<table cellspacing="0" cellpadding="0" border="0">
                     <tr>
                         <td style="dotted" bgcolor="lightgrey" border="1">NAL Unit</td>
@@ -106,7 +106,7 @@ digraph G
 
         access_unit_eo_stream
         [
-            shape=0, margin=0,
+            shape=none, margin=0,
             label=<<table cellspacing="0" cellpadding="0" border="0">
                     <tr>
                         <td style="dotted"  bgcolor="lightgrey" border="1">NAL Unit</td>
